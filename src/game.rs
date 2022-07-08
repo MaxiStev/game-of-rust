@@ -46,7 +46,7 @@ impl Game {
         &self.field
     }
 
-    pub fn swap(&mut self, row: usize, col: usize) {
+    pub fn flip(&mut self, row: usize, col: usize) {
        self.field[row][col] = !self.field[row][col]; 
     }
 
