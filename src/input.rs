@@ -1,25 +1,21 @@
 use std::vec::Vec;
 
-#[derive(Debug)]
 enum Token {
     Number(usize),
     Delimiter(char),
     EOF,
 }
 
-#[derive(Debug)]
 pub struct Range {
     pub start: usize,
     pub end: usize,
 }
 
-#[derive(Debug)]
 enum Expression {
     Range(Range),
     Integer(usize),
 }
 
-#[derive(Debug)]
 pub struct Pair {
     pub x: Range,
     pub y: Range,
