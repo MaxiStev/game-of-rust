@@ -71,7 +71,6 @@ fn build_exprs(tokens: &mut Vec<Token>) -> Vec<Expression> {
                         if range_end < range_start {
                             std::mem::swap(&mut range_start, &mut range_end);
                         }
-                        println!("\t\t\t\t{:?}", Expression::Range(Range{start: range_start, end: range_end}));
                         exprs.push(Expression::Range(Range{start: range_start, end: range_end}));
                         is_range = false;
                     } else if *del == '-' {
@@ -79,33 +78,26 @@ fn build_exprs(tokens: &mut Vec<Token>) -> Vec<Expression> {
                         string = "".to_string();
                         is_range = true;
                     } else {
-                        println!("\t\t\t\t{:?}", Expression::Integer(string.parse().unwrap()));
                         exprs.push(Expression::Integer(string.parse().unwrap()));
                         string = "".to_string();
                     }
                 }
             },
         }
-        println!("\ntoken:\t\t\t{:?}\nstring:\t\t\t{string}\nis_range:\t\t{is_range}\nrange_start:\t\t{range_start}\nlast_was_delim:\t\t{last_was_delim}", token);
     }
     if is_range {
         let mut range_end: usize = string.parse().unwrap();
         if range_end < range_start {
             std::mem::swap(&mut range_start, &mut range_end);
         }
-        println!("\t\t\t\t{:?}", Expression::Range(Range{start: range_start, end: range_end}));
         exprs.push(Expression::Range(Range{start: range_start, end: range_end}));
     }
     return exprs;
 }
 
 fn build_pairs(mut exprs: Vec<Expression>) -> Vec<Pair> {
-    for e in &exprs {
-        println!("{:?}", e);
-    }
     let mut pairs: Vec<Pair> = Vec::new();
     while exprs.len() > 1 {
-        println!("{}", exprs.len());
         let mut pair :Vec<Range> = Vec::new();
         for _ in 0..2 {
             let expr = exprs.pop().unwrap();
