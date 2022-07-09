@@ -1,6 +1,7 @@
 use std::io;
 use std::io::Write;
 
+mod input;
 mod game;
 fn draw(stdout: &mut io::Stdout, field: &Vec<Vec<bool>>) {
     for row in field {
@@ -46,13 +47,12 @@ fn main() {
     }
 }
 
-mod lexer;
 fn flip(stdin: &io::Stdin, _game: &mut game::Game) {
     let mut buffer = String::new();
     stdin.read_line(&mut buffer).unwrap();
-    let list = lexer::parse(buffer);
-    for token in list {
-        println!("{:?}", token);
+    let list = input::parse(buffer);
+    for expr in list.iter() {
+        println!("{:?}", expr);
     }
     // let row: usize;
     // let col: usize;
