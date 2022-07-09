@@ -141,7 +141,6 @@ pub fn parse(str: String) -> Vec<Pair> {
     let exprs = build_exprs(&mut tokens);
     #[cfg(debug_assertions)]
     for t in &exprs {
-        #[cfg(debug_assertions)]
         println!("{:?}", t);
     }
     build_pairs(exprs)
