@@ -46,14 +46,21 @@ fn main() {
     }
 }
 
-fn flip(stdin: &io::Stdin, game: &mut game::Game) {
-    let row: usize;
-    let col: usize;
+mod lexer;
+fn flip(stdin: &io::Stdin, _game: &mut game::Game) {
     let mut buffer = String::new();
     stdin.read_line(&mut buffer).unwrap();
-    row = buffer.trim().parse::<usize>().unwrap();
-    buffer = String::new();
-    stdin.read_line(&mut buffer).unwrap();
-    col = buffer.trim().parse::<usize>().unwrap();
-    game.flip(row, col);
+    let list = lexer::parse(buffer);
+    for token in list {
+        println!("{:?}", token);
+    }
+    // let row: usize;
+    // let col: usize;
+    // let mut buffer = String::new();
+    // stdin.read_line(&mut buffer).unwrap();
+    // row = buffer.trim().parse::<usize>().unwrap();
+    // buffer = String::new();
+    // stdin.read_line(&mut buffer).unwrap();
+    // col = buffer.trim().parse::<usize>().unwrap();
+    // game.flip(row, col);
 }
