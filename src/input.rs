@@ -98,6 +98,7 @@ fn build_exprs(tokens: &mut Vec<Token>) -> Vec<Expression> {
                 }
             },
         }
+        #[cfg(debug_assertions)]
         println!("\ntoken:\t\t\t{:?}\nstring:\t\t\t{string}\nis_range:\t\t{is_range}\nrange_start:\t\t{range_start}\nlast_was_delim:\t\t{last_was_delim}", token);
     }
     return exprs;
@@ -133,11 +134,14 @@ fn build_pairs(mut exprs: Vec<Expression>) -> Vec<Pair> {
 
 pub fn parse(str: String) -> Vec<Pair> {
     let mut tokens = tokenize(str);
+    #[cfg(debug_assertions)]
     for t in &tokens {
         println!("{:?}", t);
     }
     let exprs = build_exprs(&mut tokens);
+    #[cfg(debug_assertions)]
     for t in &exprs {
+        #[cfg(debug_assertions)]
         println!("{:?}", t);
     }
     build_pairs(exprs)
