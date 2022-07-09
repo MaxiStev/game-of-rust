@@ -16,19 +16,15 @@ pub fn parse(str: String) -> Vec<Token> {
                     num_start = Some(i);
                 }
             },
-            ',' | '.' | '-' => {
-                if num_start.is_some() {
-                    let slice = &str[num_start.unwrap()..i];
-                    list.push(Token::Number(slice.parse::<usize>().unwrap()));
-                    num_start = None;
-                }
-                list.push(Token::Delimiter(c));
-            },
             _ => {
                 if num_start.is_some() {
                     let slice = &str[num_start.unwrap()..i];
                     list.push(Token::Number(slice.parse::<usize>().unwrap()));
                     num_start = None;
+                }
+                match c {
+                    ',' | '.' | '-' => list.push(Token::Delimiter(c)),
+                    _ => (),
                 }
             },
         }
