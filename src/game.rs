@@ -7,10 +7,13 @@ impl Game {
     pub fn new(height: usize, width: usize) -> Game {
         Game {field: vec![vec![false; width]; height], next: vec![vec![false; width]; height]}
     }
-    
+
+    fn get_size(&mut self) -> (usize, usize){
+        (self.field[0].len(), self.field.len())
+    }
+
     pub fn step(&mut self) -> &Vec<Vec<bool>> {
-        let height = self.field.len();
-        let width = self.field[0].len();
+        let (width, height) = self.get_size();
         for row in 0usize..height {
             for col in 0usize..width {
                 let mut count = 0;
@@ -47,7 +50,10 @@ impl Game {
     }
 
     pub fn flip(&mut self, row: usize, col: usize) {
-       self.field[col][row] = !self.field[col][row]; 
+        let (x, y) = self.get_size();
+        if row < x && col < y {
+            self.field[col][row] = !self.field[col][row]; 
+        }
     }
 
     pub fn get_field(&self) -> &Vec<Vec<bool>> {
