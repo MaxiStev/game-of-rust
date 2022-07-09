@@ -63,7 +63,7 @@ fn build_exprs(tokens: &mut Vec<Token>) -> Vec<Expression> {
                 string.push_str(&number.to_string());
                 last_was_delim = false;
             },
-            Token::Delimiter(del) => {
+            Token::Delimiter(delim) => {
                 if last_was_delim { continue; }
                 last_was_delim = true;
                 if is_range {
@@ -74,7 +74,7 @@ fn build_exprs(tokens: &mut Vec<Token>) -> Vec<Expression> {
                     }
                     exprs.push(Expression::Range(Range{start: range_start, end: range_end}));
                     is_range = false;
-                } else if *del == '-' {
+                } else if *delim == '-' {
                     range_start = string.parse().unwrap();
                     string = "".to_string();
                     is_range = true;
@@ -140,8 +140,8 @@ pub fn parse(str: String) -> Vec<Pair> {
     }
     let exprs = build_exprs(&mut tokens);
     #[cfg(debug_assertions)]
-    for t in &exprs {
-        println!("{:?}", t);
+    for e in &exprs {
+        println!("{:?}", e);
     }
     build_pairs(exprs)
 }
