@@ -8,8 +8,8 @@ enum Token {
 
 #[derive(Debug)]
 pub struct Range {
-    start: usize,
-    end: usize,
+    pub start: usize,
+    pub end: usize,
 }
 
 #[derive(Debug)]
@@ -20,8 +20,8 @@ enum Expression {
 
 #[derive(Debug)]
 pub struct Pair {
-    x: Range,
-    y: Range,
+    pub x: Range,
+    pub y: Range,
 }
 
 // lexical analysis
@@ -106,6 +106,7 @@ fn build_pairs(mut exprs: Vec<Expression>) -> Vec<Pair> {
                     pair.push(Range{start: num, end: num + 1});
                 },
                 Expression::Range(mut range) => {
+                    range.end += 1;
                     if range.start == range.end {
                         range.end += 1;
                     }

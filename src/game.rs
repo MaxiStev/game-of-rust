@@ -47,7 +47,7 @@ impl Game {
     }
 
     pub fn flip(&mut self, row: usize, col: usize) {
-       self.field[row][col] = !self.field[row][col]; 
+       self.field[col][row] = !self.field[col][row]; 
     }
 
     pub fn get_field(&self) -> &Vec<Vec<bool>> {

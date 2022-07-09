@@ -22,7 +22,7 @@ fn main() {
         stdin.read_line(&mut buffer).unwrap();
         width = buffer.trim().parse::<usize>().unwrap_or(8);
     }
-    println!("bidde höhe weite eingeben");
+    println!("bidde nummer höhe eingeben");
     let height: usize;
     {
         let mut buffer = String::new();
@@ -47,20 +47,17 @@ fn main() {
     }
 }
 
-fn flip(stdin: &io::Stdin, _game: &mut game::Game) {
+fn flip(stdin: &io::Stdin, game: &mut game::Game) {
     let mut buffer = String::new();
     stdin.read_line(&mut buffer).unwrap();
     let list = input::parse(buffer);
-    for expr in list.iter() {
-        println!("{:?}", expr);
+    for pair in list.iter() {
+        //println!("{:?}", pair);
+        for x in pair.x.start..pair.x.end {
+            for y in pair.y.start..pair.y.end {
+                println!("{x},{y}");
+                game.flip(x, y);
+            }
+        }
     }
-    // let row: usize;
-    // let col: usize;
-    // let mut buffer = String::new();
-    // stdin.read_line(&mut buffer).unwrap();
-    // row = buffer.trim().parse::<usize>().unwrap();
-    // buffer = String::new();
-    // stdin.read_line(&mut buffer).unwrap();
-    // col = buffer.trim().parse::<usize>().unwrap();
-    // game.flip(row, col);
 }
