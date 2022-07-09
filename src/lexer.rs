@@ -22,10 +22,7 @@ pub fn parse(str: String) -> Vec<Token> {
                     list.push(Token::Number(slice.parse::<usize>().unwrap()));
                     num_start = None;
                 }
-                match c {
-                    ',' | '.' | '-' => list.push(Token::Delimiter(c)),
-                    _ => (),
-                }
+                if let ',' | '.' | '-' = c { list.push(Token::Delimiter(c)) }
             },
         }
     }
