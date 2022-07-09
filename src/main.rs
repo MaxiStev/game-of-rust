@@ -52,10 +52,8 @@ fn flip(stdin: &io::Stdin, game: &mut game::Game) {
     stdin.read_line(&mut buffer).unwrap();
     let list = input::parse(buffer);
     for pair in list.iter() {
-        //println!("{:?}", pair);
         for x in pair.x.start..pair.x.end {
             for y in pair.y.start..pair.y.end {
-                println!("{x},{y}");
                 game.flip(x, y);
             }
         }

@@ -4,6 +4,7 @@ use std::vec::Vec;
 enum Token {
     Number(usize),
     Delimiter(char),
+    EOF,
 }
 
 #[derive(Debug)]
@@ -45,6 +46,7 @@ fn tokenize(str: String) -> Vec<Token> {
             },
         }
     }
+    tokens.push(Token::EOF);
     return tokens;
 }
 
@@ -62,41 +64,48 @@ fn build_exprs(tokens: &mut Vec<Token>) -> Vec<Expression> {
                 last_was_delim = false;
             },
             _ => {
-                if let Token::Delimiter(del) = token {
-                    if last_was_delim { continue; }
-                    last_was_delim = true;
-                    if is_range {
-                        let mut range_end: usize = string.parse().unwrap();
-                        string = "".to_string();
-                        if range_end < range_start {
-                            std::mem::swap(&mut range_start, &mut range_end);
+                match token {
+                    Token::Delimiter(del) => {
+                        if last_was_delim { continue; }
+                        last_was_delim = true;
+                        if is_range {
+                            let mut range_end: usize = string.parse().unwrap();
+                            string = "".to_string();
+                            if range_end < range_start {
+                                std::mem::swap(&mut range_start, &mut range_end);
+                            }
+                            exprs.push(Expression::Range(Range{start: range_start, end: range_end}));
+                            is_range = false;
+                        } else if *del == '-' {
+                            range_start = string.parse().unwrap();
+                            string = "".to_string();
+                            is_range = true;
+                        } else {
+                            exprs.push(Expression::Integer(string.parse().unwrap()));
+                            string = "".to_string();
                         }
-                        exprs.push(Expression::Range(Range{start: range_start, end: range_end}));
-                        is_range = false;
-                    } else if *del == '-' {
-                        range_start = string.parse().unwrap();
-                        string = "".to_string();
-                        is_range = true;
-                    } else {
-                        exprs.push(Expression::Integer(string.parse().unwrap()));
-                        string = "".to_string();
-                    }
+                    },
+                    _ => {
+                        if is_range {
+                            let mut range_end: usize = string.parse().unwrap();
+                            if range_end < range_start {
+                                std::mem::swap(&mut range_start, &mut range_end);
+                            }
+                            exprs.push(Expression::Range(Range{start: range_start, end: range_end}));
+                        }
+                    },
                 }
             },
         }
-    }
-    if is_range {
-        let mut range_end: usize = string.parse().unwrap();
-        if range_end < range_start {
-            std::mem::swap(&mut range_start, &mut range_end);
-        }
-        exprs.push(Expression::Range(Range{start: range_start, end: range_end}));
     }
     return exprs;
 }
 
 fn build_pairs(mut exprs: Vec<Expression>) -> Vec<Pair> {
     let mut pairs: Vec<Pair> = Vec::new();
+    if (exprs.len() % 2) != 0 {
+        exprs.pop();
+    }
     while exprs.len() > 1 {
         let mut pair :Vec<Range> = Vec::new();
         for _ in 0..2 {
