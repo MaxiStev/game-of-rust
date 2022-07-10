@@ -83,7 +83,7 @@ fn build_exprs(tokens: &mut Vec<Token>) -> Vec<Expression> {
                     string = "".to_string();
                 }
             },
-            Token::EOF => { 
+            Token::EOF => {
                 if is_range {
                     let mut range_end: usize = string.parse().unwrap();
                     string = "".to_string();
