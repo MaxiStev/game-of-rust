@@ -26,10 +26,11 @@ pub struct Pair {
 }
 
 // lexical analysis
-fn tokenize(str: String) -> Vec<Token> {
+fn tokenize(mut str: String) -> Vec<Token> {
     let mut tokens = Vec::new();
     let mut num_start: Option<usize> = None;
-    for (i, c) in str.replace(|c: char| !c.is_ascii(), "").chars().enumerate() {
+    str.retain(|c: char| c.is_ascii());
+    for (i, c) in str.chars().enumerate() {
         match c {
             '0'..='9' => {
                 if num_start == None {
