@@ -52,7 +52,7 @@ impl Game {
     pub fn flip(&mut self, row: usize, col: usize) {
         let (x, y) = self.get_size();
         if row < x && col < y {
-            self.field[col][row] = !self.field[col][row]; 
+            self.field[col][row] = !self.field[col][row];
         }
     }
 

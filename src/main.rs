@@ -29,6 +29,7 @@ fn main() {
         stdin.read_line(&mut buffer).unwrap();
         height = buffer.trim().parse::<usize>().unwrap_or(8);
     }
+    #[cfg(debug_assertions)]
     println!("{} {}", height, width);
     let mut game: game::Game = game::Game::new(height, width);
 
@@ -42,7 +43,7 @@ fn main() {
         match buffer.trim() {
             "q" => break,
             "c" => flip(&stdin, &mut game),
-            _ => {game.step();}
+            _ => {game.step();},
         }
     }
 }
